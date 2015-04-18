@@ -1,0 +1,191 @@
+\documentclass[12pt]{scrartcl}%{article} % Beginn der LaTeX-Datei
+\usepackage{amsmath,amssymb,amsthm,mathtools}  % erleichtert Mathe 
+\addtolength{\jot}{0.2em}
+\usepackage{enumitem}% schicke Nummerierung
+\newcommand{\sbt}{\,\begin{picture}(-1,1)(-1,-3)\circle*{3}\end{picture}\ }
+\renewcommand{\labelitemi}{\sbt}
+
+\usepackage{graphicx} % für Grafik-Einbindung
+\usepackage{float} 
+%\usepackage[dvips]{hyperref}
+
+\usepackage[ngerman]{babel}
+\usepackage[autostyle=true,german=quotes]{csquotes}
+%\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+% Einstellungen, wenn man deutsch schreiben will, z.B. Trennregeln
+\usepackage[utf8]{inputenc}  % für Unix-Systeme
+
+% environments
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{lemma}{Lemma}
+% definition-like stuff
+\theoremstyle{definition}
+\newtheorem*{defn}{Definition}
+\newtheorem{ex}{Beispiel}
+% remark-like stuff
+\theoremstyle{remark}
+\newtheorem*{notation}{Notation}
+\newtheorem*{nb}{Bemerkung}
+
+% commands
+\newcommand{\powerset}{\mathcal{P}}
+\newcommand{\implies}{\Rightarrow}
+\newcommand{\sym}{\text{Sym}}
+\newcommand{\gl}{\text{GL}}
+\newcommand{\abb}{\text{Abb}}
+\newcommand{\inv}[1]{\left(#1\right)^{-1}}
+\newcommand{\Inv}[1]{#1^{-1}}
+
+\begin{document}
+
+\author{Sebastian Bechtel}
+\title{Topologie}
+\date{15. April 2015}
+
+\maketitle % erzeugt den Kopf
+
+\begin{defn}
+    Sei $X$ Menge, $\emptyset\neq \varphi\subseteq \powerset(X)$. $\varphi$ heißt \underline{Filter} auf $X$ gdw.
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $X\in \varphi, \emptyset\not\in\varphi$
+        \item $A\in\varphi \text{ und } B\in\varphi \implies A\cap B\in\varphi$
+        \item $A\in\varphi \text{ und } B\supseteq A \implies B\in\varphi$
+    \end{enumerate}
+\end{defn}
+
+\begin{ex}
+    \begin{itemize}
+        \item Aus Folgen gebildete Filter: Elementarfilter
+        \item Für $\emptyset \neq A\subseteq X$: $[A]\coloneqq \{P\subseteq X: P\superseteq A\}$
+        \item Spezialfall $A=\{a\}$ ist \underline{Einpunktfilter} $\dot a\coloneqq [\{a\}]$ zu $a$
+    \end{itemize}
+\end{ex}
+
+\begin{defn}
+    $X$ Menge, $\varphi$ Filter auf $X$, $\mathfrak{B}\subseteq \powerset_0(X)$.
+
+    \begin{itemize}
+        \item $\mathfrak{B}$ heißt \underline{Basis} von $\varphi$ gdw. $\varphi = \{P\subseteq X: \exists B\in\mathfrak{B}: B\subseteq P\}$
+        \item $\mathfrak{B}$ heißt \underline{Subbasis} von $\varphi$ gdw. die Familie aller endlichen Schnitte von Elementen in $\mathfrak{B}$ eine Basis von $\varphi$ ist.
+        \item $\varphi$ heißt der von $\mathfrak{B}$ \underline{erzeugte} Filter $[\mathfrak{B}]$.
+    \end{itemize}
+\end{defn}
+
+\begin{prop}
+    Sei $\emptyset\neq X$ Menge, $\mathfrak{B}\subseteq \powerset_0(X)$.
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $\mathfrak{B}$ ist Filtersubbasis gdw. die endlichen Durchschnitte von Elementen aus $\mathfrak{B}$ sämtlich nicht leer sind.
+        \item $\mathfrak{B}$ ist Filterbasis gdw. zu je endlich vielen $B_1,\dots,B_k\in\mathfrak{B}$ es ein $B_0\in\mathfrak{B}$ gibt, sodass $B_0\subseteq \cap_{i=1}^k B_i$.
+        \item Sind $\mathfrak{A}$ und $\mathfrak{B}$ Filterbasen, so ist $\mathfrak{A} \cup \mathfrak{B}$ Filtersubbasis gdw. für $A\in\mathfrak{A}$ und $B\in\mathfrak{B}$ gilt: $A\cap B \neq \emptyset$.
+        \item Ist $\mathfrak{A}$ eine Filterbasis und $P\subseteq X$, sodass für $A\in\mathfrak{A}$ gilt: $P\cap A \neq \emptyset$, dann ist $\mathfrak{A} \cup \{P\}$ Filtersubbasis.
+    \end{enumerate}
+\end{prop}
+
+\begin{defn}
+    $X$ Menge, $d: X\times X\to [0,\infty)$ mit
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item für $x,y\in X$ gilt $d(x,y)=0$ gdw. $x=y$.
+        \item für $x,y\in X$ gilt $d(x,y)=d(y,x)$.
+        \item für $x,y,z\in X$ gilt $d(x,z) \leq d(x,y) + d(y,z)$.
+    \end{enumerate}
+
+    dann heißt $(X, d)$ \underline{metrischer Raum}.
+\end{defn}
+
+\begin{defn}
+    Sei $(X, d)$ metrischer Raum, $x\in X$, $\varepsilon > 0$.
+
+    \begin{itemize}
+        \item $U_\varepsilon=U_\varepsilon^d\coloneqq \{y\in X: d(x,y) < \varepsilon\}$ heißt \underline{$\varepsilon$-Umgebung} von $x$.
+        \item Eine Teilmenge $O\subseteq X$ heißt \underline{offen} (bzgl. $d$), falls es für $x\in O$ ein $\varepsilon > 0$ gibt, sodass $U_\varepsilon(x)\subseteq O$.
+        \item Eine Menge $V\subseteq X$ heißt \underline{Umgebung} von $x$, falls es $\varepsilon > 0$ gibt, sodass $U_\varepsilon(x)\subseteq V$.
+        \item Die Familie aller Umgebungen von $x$ heißt \underline{Umgebungsfilter} von $x$: $\underline{U}(x)$
+        \item Eine Folge $(x_n)$ in $X$ \underline{konvergiert} gegen $y$, falls es für $\varepsilon > 0$ ein $n_0\in \mathbb{N}$ gibt, sodass für $m > n_0$ gilt: $d(x_m, y) < \varepsilon$
+        \item Ein Filter $\varphi$ auf $X$ \underline{konvergiert} gegen $y$, falls für $\varepsilon > 0$ gilt: $U_\varepsilon(y)\in\varphi$. Äquivalent: $\underline{U}(y)\subseteq \varphi$
+    \end{itemize}
+\end{defn}
+
+\begin{prop}
+    In einem metrischen Raum $(X, d)$ ist jede $\varepsilon$-Umgebung $U_\varepsilon(x)$ offen.
+\end{prop}
+
+\begin{proof}
+    Sei $y\in U_\varepsilon(x)$. Wähle $\delta\coloneqq \varepsilon-d(x,y)$, dann ist $U_\delta(y)\subseteq U_\varepsilon(x)$.
+\end{proof}
+
+\begin{prop}
+    Sei $(X, d)$ metrischer Raum, $O\subseteq X$. Es sind äquivalent:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $O$ ist offen.
+        \item Für jede Folge $(x_n)$ in $X$, die gegen $y\in O$ konvergiert, gilt: es gibt $n_0\in\mathbb{N}$, sodass für $m > n_0$ gilt: $x_m\in O$.
+        \item Für jeden Filter $\varphi$ auf $X$, der gegen $y\in O$ konvergiert, gilt $O\in \varphi$.
+    \end{enumerate}
+\end{prop}
+
+\begin{proof}
+    $(1)\implies (2)$: Da $O$ offen ist, gibt es $\varepsilon > 0$ mit $U_\varepsilon \subseteq O$. Nun gibt es $n_0\in\mathbb{N}$, sodass für $m > n$ gilt: $x_m \in U_\varepsilon(y)\subseteq O$.
+
+    $(2) \implies (1)$: Angenommen $O$ ist nicht offen, dann gibt es $y\in O$, sodass für $n\in \mathbb{N}^+$ ein $x_m$ existiert mit $x_m\in U_{1/n}(y)\setminus O$. Widerspruch!
+
+    $(1) \implies (3)$: $O$ offen, $\varphi \to y\in O$, dann gibt es $\varepsilon > 0$, sodass $U_\varepsilon(y) \subseteq O$. $U_\varepsilon(y)\in\varphi$, also auch $O\in\varphi$.
+
+    $(3) \implies (1)$: Wähle für alle $x\in X$ den Umgebungsfilter von $x$.
+\end{proof}
+
+\begin{lemma}
+    Sei $(X, d)$ metrischer Raum, $\tau_d\coloneqq \{O\subseteq X: O \text{ offen bzgl. } d\}$. Dann gelten:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $X\in \tau_d$, $\emptyset\in \tau_d$
+        \item $A\in \tau_d$ und $B\in \tau_d \implies A\cap B\in \tau_d$
+        \item $\mathfrak{B} \subseteq \tau_d \implies \cup_{B\in\mathfrak{B}} B \in \tau_d$
+    \end{enumerate}
+\end{lemma}
+
+\begin{defn}
+    Seien $(X_1, d_1), (X_2, d_2)$ metrische Räume, $f: X_1\to X_2$. $f$ heißt \underline{stetig}, falls 
+    
+    \begin{itemize}
+        \item es für $x\in X$ und $\varepsilon > 0$ ein $\delta > 0$ gibt, sodass für $y\in X_1$ mit $d_1(x,y) < \delta$ folgt: $d_2(f(x),f(y)) < \varepsilon$
+
+        \item Äquivalent: für $x\in X_1$ und $\varepsilon > 0$ gibt es $\delta > 0$, sodass $f(U_\delta(x)) \subseteq U_\varepsilon(f(x))$
+
+        \item Äquivalent: für $x\in X_1$ gilt: $[f(\underline{U}(x))] \supseteq \underline{U}(f(x))$
+    \end{itemize}
+\end{defn}
+
+\begin{lemma}
+    Eine Funktion $f: X_1\to X_2$ zwischen metrischen Räumen $(X_1, d_1), (X_2, d_2)$ ist stetig gdw. für jede in $X_2$ offene Menge $O$ das Urbild $\Inv f(O)$ offen in $X_1$ ist.
+\end{lemma}
+
+\begin{proof}
+    "$\Rightarrow$": Sei $f$ stetig, $O \subseteq X_2$ offen, $x\in \Inv f(0)$. $f(x)\in O$, also gibt es $\varepsilon > 0$, sodass $U_\varepsilon(f(x)) \subseteq O$. Wegen Stetigkeit gibt es $\delta > 0$, sodass $f(U_\delta(x))\subseteq U_\varepsilon(f(x)) \subseteq O$. Somit $U_\delta(x)\subseteq \Inv f(O)$, also $\Inv f(O)$ offen.
+
+    "$\Leftarrow$": Sei $x\in X_1$. Setze $O\coloneqq U_\varepsilon(f(x))$. Dann ist $\Inv f(U_\varepsilon(f(x)))$ offen, also gibt es $\delta > 0$ mit $U_\delta(x) \subseteq \Inv f(U_\varepsilon(f(x)))$, somit $f(U_\delta(x)) \subseteq U_\varepsilon(f(x))$.
+\end{proof}
+
+\begin{defn}
+    Sei $X=\mathbb{R}^\mathbb{R}$. 
+    
+    \begin{itemize}
+        \item Eine Folge $(f_n)$ in $\mathbb{R}^\mathbb{R}$ \underline{konvergiert punktweise} gegen $g\in \mathbb{R}^\mathbb{R}$, falls für $x\in \mathbb{R}$ gilt $f_n(f)\to g(x)$.
+        \item Ein Filter $\varphi$ auf $\mathbb{R}^\mathbb{R}$ \underline{konvergiert punktweise} gegen $g\in \mathbb{R}^\mathbb{R}$, falls für $x\in \mathbb{R}$ gilt $\varphi(x)\to g(x)$, wobei $\varphi(x)\coloneqq [\{F(x): F\in\varphi\}]$ und $F(x)\coloneqq \{f(x): f\in F\}$.
+    \end{itemize}
+\end{defn}
+
+\begin{lemma}
+    Es gibt keine Metrik auf $\mathbb{R}^\mathbb{R}$, deren Konvergenz die punktweisen Konvergenz ist.
+\end{lemma}
+
+\begin{proof}
+    Angenommen, es gäbe eine solche Metrik $d$ auf $\mathbb{R}^\mathbb{R}$, $f_0\in \mathbb{R}^\mathbb{R}$ fest gewählt. Setze $\mathfrak{H}_{E,\varepsilon} \coloneqq \{ g\in \mathbb{R}^\mathbb{R}: \forall e\in E: d(g(e), f_0(e)) < \varepsilon \}$, wobei $E$ endlich und $\varepsilon > 0$.
+
+    Behauptung: alle $\mathfrak{H}_{E,\varepsilon}$ sind offen. Sei $(g_n)$ Folge in $\mathbb{R}^\mathbb{R}$, die gegen $g\in \mathfrak{H}_{E,\varepsilon}$ konvergiert. Für $e\in E$ gibt es $n_e\in \mathbb{N}$, sodass für $m > n_e$ gilt: $d(g_m(e), g(e)) < \delta$. Setze $n_0\coloneqq \max_{e\in E} n_e$.
+
+\end{document}
