@@ -7,6 +7,8 @@
 
 \usepackage{graphicx} % für Grafik-Einbindung
 \usepackage{float} 
+\usepackage{setspace}
+\onehalfspacing
 %\usepackage[dvips]{hyperref}
 
 \usepackage[ngerman]{babel}
@@ -16,9 +18,13 @@
 % Einstellungen, wenn man deutsch schreiben will, z.B. Trennregeln
 \usepackage[utf8]{inputenc}  % für Unix-Systeme
 
+% fonts
+\newfont{\suet}{suet14}
+
 % environments
 \newtheorem{thm}{Theorem}
 \newtheorem{prop}{Proposition}
+\newtheorem{korollar}{Korollar}
 \newtheorem{lemma}{Lemma}
 % definition-like stuff
 \theoremstyle{definition}
@@ -32,11 +38,8 @@
 % commands
 \newcommand{\powerset}{\mathcal{P}}
 \newcommand{\implies}{\Rightarrow}
-\newcommand{\sym}{\text{Sym}}
-\newcommand{\gl}{\text{GL}}
-\newcommand{\abb}{\text{Abb}}
-\newcommand{\inv}[1]{\left(#1\right)^{-1}}
-\newcommand{\Inv}[1]{#1^{-1}}
+\newcommand{\filterset}{\mathfrak{F}}
+%\newcommand{\filterset}{\underline{\mathcal{F}}}
 
 \begin{document}
 
@@ -45,6 +48,8 @@
 \date{15. April 2015}
 
 \maketitle % erzeugt den Kopf
+
+\section*{Filter}
 
 \begin{defn}
     Sei $X$ Menge, $\emptyset\neq \varphi\subseteq \powerset(X)$. $\varphi$ heißt \underline{Filter} auf $X$ gdw.
@@ -183,9 +188,134 @@
     Es gibt keine Metrik auf $\mathbb{R}^\mathbb{R}$, deren Konvergenz die punktweisen Konvergenz ist.
 \end{lemma}
 
-\begin{proof}
-    Angenommen, es gäbe eine solche Metrik $d$ auf $\mathbb{R}^\mathbb{R}$, $f_0\in \mathbb{R}^\mathbb{R}$ fest gewählt. Setze $\mathfrak{H}_{E,\varepsilon} \coloneqq \{ g\in \mathbb{R}^\mathbb{R}: \forall e\in E: d(g(e), f_0(e)) < \varepsilon \}$, wobei $E$ endlich und $\varepsilon > 0$.
+\section*{Topologische Räume}
 
-    Behauptung: alle $\mathfrak{H}_{E,\varepsilon}$ sind offen. Sei $(g_n)$ Folge in $\mathbb{R}^\mathbb{R}$, die gegen $g\in \mathfrak{H}_{E,\varepsilon}$ konvergiert. Für $e\in E$ gibt es $n_e\in \mathbb{N}$, sodass für $m > n_e$ gilt: $d(g_m(e), g(e)) < \delta$. Setze $n_0\coloneqq \max_{e\in E} n_e$.
+\begin{defn}
+    Sei $X$ Menge, $\tau\subseteq \powerset(X)$. $\tau$ heißt \underline{eine Topologie} auf $X$ gdw.
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $\emptyset\in\tau, X\in\tau$
+        \item $A,B\in\tau \implies A\cap B\in \tau$
+        \item $\mathfrak{A}\subseteq \tau \implies \left(\bigcup_{A\in\mathfrak{A}} A\right) \in \tau$
+    \end{enumerate}
+
+    Die Elemente von $\tau$ heißen \underline{offene Mengen} (bzgl. $\tau$). Das Paar $(X,\tau)$ heißt ein \underline{topologischer Raum}.
+\end{defn}
+
+\begin{bsp}
+    \begin{itemize}
+        \item $d$ Metrik, dann ist $\tau_d$ Topologie.
+        \item $\tau\coloneqq \powerset(X)$ (diskrete Topologie).
+        \item $\{\emptyset, X\}$ (indiskrete Topologie)
+        \item $X$ unendliche Menge, dann ist $\tau_\text{cf}\coloneqq \{ A\subseteq X: X\setminus A \text{ endlich} \} \cup \{\emptyset\}$ Topologie.
+        \item $X$ unendlich, dann ist $\tau_\text{cc} \coloneqq \{ A\subseteq X: X\setminus A \text{ höchstens abzählbar}\} \cup \{\emptyset\}$ Topologie.
+        \item $\varphi$ Filter auf $X$, dann ist $\varphi\cup \{\emptyset\}$ Topologie.
+    \end{itemize}
+\end{bsp}
+
+\begin{prop}
+    Sei $(X, \tau)$ topologischer Raum. Äquivalent sind:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $X\supset O\in \tau$
+        \item für $o\in O$ gibt es $U\in\tau$, sodass $o\in U\subseteq O$.
+    \end{enumerate}
+\end{prop}
+
+\begin{defn}
+    Der Filter, der von der Basis $\{U\in\tau: x\in U\}$ erzeugt wird, heißt \underline{Umgebungsfilter} von $x$: $\underline{U}^\tau(x)$.
+\end{defn}
+
+\begin{defn}
+    $x\in X$, $(X,\tau)$ topologischer Raum, $\varphi$ Filter auf $X$. $\varphi$ \underline{konvergiert gegen $X$}, falls $\varphi\supseteq \underline{U}(x)$, $\varphi \to x$
+\end{defn}
+
+\begin{prop}
+    $(X,\tau)$ topologischer Raum. Äquivalent sind:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $O\subseteq X$ ist offen
+        \item für alle Filter $\varphi$ auf $X$ mit $\varphi\to x\in O$ gilt: $O\in\varphi$.
+    \end{enumerate}
+\end{prop}
+
+\begin{nb}
+    $X=\mathbb{R}, \tau=\tau_\text{cc}$, dann konvergieren nur Folgen, die irgendwann konstant sind.
+\end{nb}
+
+\section*{Filter und Ultrafilter}
+
+$X$ Menge, $\filterset(X)$ Menge aller Filter auf $X$.
+
+\begin{prop}
+    $X$ Menge, $\underline{C}\subseteq \filterset(X)$ total geordnet durch $\subseteq$. Dann ist $\bigcup_{C\in\underline{C}} C$ wieder Filter und ein Supremum von $\underline{C}$ in $\filterset(X)$.
+\end{prop}
+
+\begin{proof}
+    totale Ordnung für Schnitte.
+\end{proof}
+
+\begin{korollar}
+    $X$ Menge. Zu jedem $\underline{C}\in\filterset(X)$ existiert ein maximales Element $\psi\in\filterset(X)$ mit $\varphi\subset \psi$.
+\end{korollar}
+
+\begin{defn}
+    Die maximalen Filter auf $X$ heißen auch \underline{Ultrafilter} auf $X$. Familie aller Ultrafilter auf $X$: $\filterset_0(X)$. Die Familie aller \underline{Oberfilter} von $\varphi\in\filterset(X)$ bezeichnen wir mit $\filterset(\varphi)$. Familie aller \underline{Oberultrafilter} von $\varphi$: $\filterset_0(\varphi)$.
+\end{defn}
+
+\begin{lemma}
+    $X$ Menge, $\varphi\in \filterset(X)$. Äquivalent sind:
+
+    \begin{itemize}
+        \item $\varphi$ Ultrafilter
+        \item $A\subseteq X$, so gilt $A\in\varphi$ oder $X\setminus A\in\varphi$
+        \item Für je endlich viele Teilmengen $A_1,\dots,A_n$ von $X$ folgt aus $\left(\bigcup_{i=1}^n A_i \right) \in\varphi$ stets, dass es ein $i$ mit $A_i\in\varphi$ gibt, wobei $1\leq i\leq n$.
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    (1) nach (2): Angenommen $A\not\in \varphi$, dann gilt für $P\in\varphi: P\cap (X\setminus A) \neq \emptyset$. Also ist $\varphi \cup \{X\setminus A\}$ eine Filtersubbasis. Also existiert Ultrafilter $\psi$ mit $\psi \supseteq \varphi \cup \{X\setminus A\}$. Da $\varphi$ selbst maximal ist, folgt $\varphi=\psi$, somit $(X\setminus A)\in\varphi$.
+
+    (2) nach (3): Angenommen für alle $i\in I$ gilt $A_i\not\in\varphi$. Dann ist $(X\setminus A_i)\in\varphi$ für alle $i\in I$, also auch $\left(\bigcap_{i=1}^n (X\setminus A_i)\right) \in \varphi$. Dann gilt auch $X\setminus \left( \bigcup_{i=1}^n A_i \right) \in \varphi$, also $\left( \bigcup_{i=1}^n A_i \right) \not\in \varphi$, Widerspruch!
+
+    (3) nach (1): Angenommen $\varphi$ ist nicht maximal, also dass ein $\psi\in\filterset_0(X)$ existiert, mit $\psi \neq \varphi$. Also existiert $A\in \psi\setminus \varphi$. Es gilt $A \cup (X\setminus A) \in \varphi$, also nach Annahme $A\in\varphi$ oder $(X\setminus A) \in \varphi$. $A\in\varphi$ kann nicht sein, da $A\in\psi\setminus\varphi$. Wäre $(X\setminus A) \in\varphi$, so auch $(X\setminus A)\in \psi$ im Widerspruch zu $A\in\psi$. Also $\varphi$ maximal.
+\end{proof}
+
+\begin{bsp}
+    Einpunktfilter sind Ultrafilter, ansonsten nicht konstruierbar.
+\end{bsp}
+
+\begin{prop}
+    Jeder Filter $\varphi$ ist gleich dem Durchschnitt aller seiner Oberultrafilter.
+\end{prop}
+
+\begin{proof}
+    Übung!
+\end{proof}
+
+\begin{korollar}
+    $X$ Menge, $\varphi$ Filter auf $X$, dann gilt:
+
+    \[ \filterset_0\left(\bigcap_{i=1}^n \varphi_i \right) = \bigcup_{i=1}^n \filterset_0(\varphi_i) \]
+\end{korollar}
+
+\begin{proof}
+    "$\supseteq$": \checkmark
+    "$\subseteq$": Sei $\psi\in\filterset_0\left(\bigcap_{i=1}^n \varphi_i \right)$. Angenommen $\psi\not\in \bigcup_{i=1}^n \filterset_0(\varphi_i)$, dann gibt es für jedes $1\leq i\leq n$ ein $A_i\in\varphi$, sodass $A_i\not\in\psi$. Also $\left( \bigcup_{i=1}^n A_i \right) \in \left( \bigcap_{i=1}^n \varphi_i \right) \in \psi$. Nach Lemma gibt es dann $i_0$ mit $A_{i_0}\in\ \psi$, Widerspruch!
+\end{proof}
+
+\begin{lemma}
+    Sei $X$ Menge, $\mathfrak{E} \subseteq \powerset_0(X)$ sei unter endlicher Vereinigung abgeschlossen, $\varphi\in\filterset(X)$. Dann gilt: $\varphi$ enthält ein Element von $\mathfrak{E}$ gdw. jeder Oberultrafilter von $\varphi$ ein Element von $\mathfrak{E}$ enthält.
+\end{lemma}
+
+\begin{proof}
+    "$\Leftarrow$": Sei $\psi$ Oberultrafilter von $\varphi$ mit $\psi \cap \mathfrak{E}\neq \emptyset$. Angenommen $\varphi \cap \mathfrak{E} = \emptyset$. Betrachte:
+
+    \[ \mathfrak{B}\coloneqq \{ X\setminus E: E\in \mathfrak{E} \} \]
+
+    $\mathfrak{B}$ ist Filtersubbasis, denn $X$ ist nicht durch endliche Schnitte von Elementen in $\mathfrak{E}$ darstellbar.
+
+    $\mathfrak{B} \cup \varphi$ ist auch Filtersubbasis, denn für $P\in\varphi$ und $E\in\mathfrak{E}$ gilt $P\cap (X\setminus E) \neq \emptyset$. Es existiert also Oberultrafilter $\xi \supset \varphi$ mit $\mathfrak{B}\subseteq \xi$, d.h. für $E\in\mathfrak{E}$ gilt $E\not\in \xi$, denn $(X\setminus E)\in \xi$, Widerspruch!
+\end{proof}
 
 \end{document}
