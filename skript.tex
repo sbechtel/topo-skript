@@ -11,12 +11,12 @@
 \onehalfspacing
 %\usepackage[dvips]{hyperref}
 
-\usepackage[ngerman]{babel}
-\usepackage[autostyle=true,german=quotes]{csquotes}
 %\usepackage[T1]{fontenc}
 %\usepackage{lmodern}
 % Einstellungen, wenn man deutsch schreiben will, z.B. Trennregeln
 \usepackage[utf8]{inputenc}  % für Unix-Systeme
+\usepackage[ngerman]{babel}
+\usepackage[autostyle=true,german=quotes]{csquotes}
 
 % fonts
 \newfont{\suet}{suet14}
@@ -30,6 +30,7 @@
 \theoremstyle{definition}
 \newtheorem*{defn}{Definition}
 \newtheorem{ex}{Beispiel}
+\newtheorem{bsp}{Beispiel}
 % remark-like stuff
 \theoremstyle{remark}
 \newtheorem*{notation}{Notation}
@@ -37,9 +38,11 @@
 
 % commands
 \newcommand{\powerset}{\mathcal{P}}
-\newcommand{\implies}{\Rightarrow}
+%\newcommand{\implies}{\Rightarrow}
 \newcommand{\filterset}{\mathfrak{F}}
 %\newcommand{\filterset}{\underline{\mathcal{F}}}
+
+\newcommand\Inv[1]{#1^{-1}}
 
 \begin{document}
 
@@ -64,8 +67,8 @@
 \begin{ex}
     \begin{itemize}
         \item Aus Folgen gebildete Filter: Elementarfilter
-        \item Für $\emptyset \neq A\subseteq X$: $[A]\coloneqq \{P\subseteq X: P\superseteq A\}$
-        \item Spezialfall $A=\{a\}$ ist \underline{Einpunktfilter} $\dot a\coloneqq [\{a\}]$ zu $a$
+        \item Für $\emptyset \neq A\subseteq X$: $[A]\coloneqq \{P\subseteq X: P \supseteq A\}$
+        \item Spezialfall $A=\{a\}$: $\dot a\coloneqq [\{a\}]$ ist \underline{Einpunktfilter} zu $a$
     \end{itemize}
 \end{ex}
 
@@ -80,10 +83,10 @@
 \end{defn}
 
 \begin{prop}
-    Sei $\emptyset\neq X$ Menge, $\mathfrak{B}\subseteq \powerset_0(X)$.
+    Sei $\emptyset\neq X$ Menge, $\emptyset \neq \mathfrak{B}\subseteq \powerset_0(X)$.
 
     \begin{enumerate}[label=(\arabic*)]
-        \item $\mathfrak{B}$ ist Filtersubbasis gdw. die endlichen Durchschnitte von Elementen aus $\mathfrak{B}$ sämtlich nicht leer sind.
+        \item $\mathfrak{B}$ ist Filtersubbasis gdw. die endlichen Durchschnitte von Elementen aus $\mathfrak{B}$ sämt\-lich nicht leer sind.
         \item $\mathfrak{B}$ ist Filterbasis gdw. zu je endlich vielen $B_1,\dots,B_k\in\mathfrak{B}$ es ein $B_0\in\mathfrak{B}$ gibt, sodass $B_0\subseteq \cap_{i=1}^k B_i$.
         \item Sind $\mathfrak{A}$ und $\mathfrak{B}$ Filterbasen, so ist $\mathfrak{A} \cup \mathfrak{B}$ Filtersubbasis gdw. für $A\in\mathfrak{A}$ und $B\in\mathfrak{B}$ gilt: $A\cap B \neq \emptyset$.
         \item Ist $\mathfrak{A}$ eine Filterbasis und $P\subseteq X$, sodass für $A\in\mathfrak{A}$ gilt: $P\cap A \neq \emptyset$, dann ist $\mathfrak{A} \cup \{P\}$ Filtersubbasis.
@@ -199,7 +202,7 @@
         \item $\mathfrak{A}\subseteq \tau \implies \left(\bigcup_{A\in\mathfrak{A}} A\right) \in \tau$
     \end{enumerate}
 
-    Die Elemente von $\tau$ heißen \underline{offene Mengen} (bzgl. $\tau$). Das Paar $(X,\tau)$ heißt ein \underline{topologischer Raum}.
+    Die Elemente von $\tau$ heißen \underline{offene Mengen} (bzgl. $\tau$). Das Paar $(X,\tau)$ heißt ein \underline{topologischer Raum}. % TODO Zeilenumbruch im underline?
 \end{defn}
 
 \begin{bsp}
