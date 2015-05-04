@@ -30,7 +30,6 @@
 \theoremstyle{definition}
 \newtheorem*{defn}{Definition}
 \newtheorem{ex}{Beispiel}
-\newtheorem{bsp}{Beispiel}
 % remark-like stuff
 \theoremstyle{remark}
 \newtheorem*{notation}{Notation}
@@ -109,7 +108,7 @@
     Sei $(X, d)$ metrischer Raum, $x\in X$, $\varepsilon > 0$.
 
     \begin{itemize}
-        \item $U_\varepsilon=U_\varepsilon^d\coloneqq \{y\in X: d(x,y) < \varepsilon\}$ heißt \underline{$\varepsilon$-Umgebung} von $x$.
+        \item $U_\varepsilon(x)=U_\varepsilon^d(x)\coloneqq \{y\in X: d(x,y) < \varepsilon\}$ heißt \underline{$\varepsilon$-Umgebung von $x$}.
         \item Eine Teilmenge $O\subseteq X$ heißt \underline{offen} (bzgl. $d$), falls es für $x\in O$ ein $\varepsilon > 0$ gibt, sodass $U_\varepsilon(x)\subseteq O$.
         \item Eine Menge $V\subseteq X$ heißt \underline{Umgebung} von $x$, falls es $\varepsilon > 0$ gibt, sodass $U_\varepsilon(x)\subseteq V$.
         \item Die Familie aller Umgebungen von $x$ heißt \underline{Umgebungsfilter} von $x$: $\underline{U}(x)$
@@ -137,13 +136,13 @@
 \end{prop}
 
 \begin{proof}
-    $(1)\implies (2)$: Da $O$ offen ist, gibt es $\varepsilon > 0$ mit $U_\varepsilon \subseteq O$. Nun gibt es $n_0\in\mathbb{N}$, sodass für $m > n$ gilt: $x_m \in U_\varepsilon(y)\subseteq O$.
+    $(1)$ nach $(2)$: Da $O$ offen ist, gibt es $\varepsilon > 0$ mit $U_\varepsilon \subseteq O$. Nun gibt es $n_0\in\mathbb{N}$, sodass für $m > n$ gilt: $x_m \in U_\varepsilon(y)\subseteq O$.
 
-    $(2) \implies (1)$: Angenommen $O$ ist nicht offen, dann gibt es $y\in O$, sodass für $n\in \mathbb{N}^+$ ein $x_m$ existiert mit $x_m\in U_{1/n}(y)\setminus O$. Widerspruch!
+    $(2)$ nach $(1)$: Angenommen $O$ ist nicht offen, dann gibt es $y\in O$, sodass für $n\in \mathbb{N}^+$ ein $x_m$ existiert mit $x_m\in U_{1/n}(y)\setminus O$. Widerspruch!
 
-    $(1) \implies (3)$: $O$ offen, $\varphi \to y\in O$, dann gibt es $\varepsilon > 0$, sodass $U_\varepsilon(y) \subseteq O$. $U_\varepsilon(y)\in\varphi$, also auch $O\in\varphi$.
+    $(1)$ nach $(3)$: $O$ offen, $\varphi \to y\in O$, dann gibt es $\varepsilon > 0$, sodass $U_\varepsilon(y) \subseteq O$. $U_\varepsilon(y)\in\varphi$, also auch $O\in\varphi$.
 
-    $(3) \implies (1)$: Wähle für alle $x\in X$ den Umgebungsfilter von $x$.
+    $(3)$ nach $(1)$: Wähle für alle $x\in X$ den Umgebungsfilter von $x$.
 \end{proof}
 
 \begin{lemma}
@@ -173,9 +172,9 @@
 \end{lemma}
 
 \begin{proof}
-    "$\Rightarrow$": Sei $f$ stetig, $O \subseteq X_2$ offen, $x\in \Inv f(0)$. $f(x)\in O$, also gibt es $\varepsilon > 0$, sodass $U_\varepsilon(f(x)) \subseteq O$. Wegen Stetigkeit gibt es $\delta > 0$, sodass $f(U_\delta(x))\subseteq U_\varepsilon(f(x)) \subseteq O$. Somit $U_\delta(x)\subseteq \Inv f(O)$, also $\Inv f(O)$ offen.
+    "$\Rightarrow$": Sei $f$ stetig, $O \subseteq X_2$ offen, $x\in \Inv f(0)$. $f(x)\in O$, also gibt es $\varepsilon > 0$, sodass $x\in U_\varepsilon(f(x)) \subseteq O$. Wegen Stetigkeit gibt es $\delta > 0$, sodass $f(U_\delta(x))\subseteq U_\varepsilon(f(x)) \subseteq O$. Somit $U_\delta(x)\subseteq \Inv f(O)$, also $\Inv f(O)$ offen.
 
-    "$\Leftarrow$": Sei $x\in X_1$. Setze $O\coloneqq U_\varepsilon(f(x))$. Dann ist $\Inv f(U_\varepsilon(f(x)))$ offen, also gibt es $\delta > 0$ mit $U_\delta(x) \subseteq \Inv f(U_\varepsilon(f(x)))$, somit $f(U_\delta(x)) \subseteq U_\varepsilon(f(x))$.
+    "$\Leftarrow$": Sei $x\in X_1$ und $\varepsilon > 0$. Setze $O\coloneqq U_\varepsilon(f(x))$. Dann ist $\Inv f(U_\varepsilon(f(x)))$ offen, also gibt es $\delta > 0$ mit $U_\delta(x) \subseteq \Inv f(U_\varepsilon(f(x)))$, somit $f(U_\delta(x)) \subseteq U_\varepsilon(f(x))$.
 \end{proof}
 
 \begin{defn}
@@ -191,10 +190,14 @@
     Es gibt keine Metrik auf $\mathbb{R}^\mathbb{R}$, deren Konvergenz die punktweisen Konvergenz ist.
 \end{lemma}
 
+\begin{proof}
+    Foliensatz!
+\end{proof}
+
 \section*{Topologische Räume}
 
 \begin{defn}
-    Sei $X$ Menge, $\tau\subseteq \powerset(X)$. $\tau$ heißt \underline{eine Topologie} auf $X$ gdw.
+    Sei $X$ Menge, $\tau\subseteq \powerset(X)$. $\tau$ heißt \underline{Topologie auf $X$} gdw.
 
     \begin{enumerate}[label=(\arabic*)]
         \item $\emptyset\in\tau, X\in\tau$
@@ -205,7 +208,7 @@
     Die Elemente von $\tau$ heißen \underline{offene Mengen} (bzgl. $\tau$). Das Paar $(X,\tau)$ heißt ein \underline{topologischer Raum}. % TODO Zeilenumbruch im underline?
 \end{defn}
 
-\begin{bsp}
+\begin{ex}
     \begin{itemize}
         \item $d$ Metrik, dann ist $\tau_d$ Topologie.
         \item $\tau\coloneqq \powerset(X)$ (diskrete Topologie).
@@ -214,7 +217,7 @@
         \item $X$ unendlich, dann ist $\tau_\text{cc} \coloneqq \{ A\subseteq X: X\setminus A \text{ höchstens abzählbar}\} \cup \{\emptyset\}$ Topologie.
         \item $\varphi$ Filter auf $X$, dann ist $\varphi\cup \{\emptyset\}$ Topologie.
     \end{itemize}
-\end{bsp}
+\end{ex}
 
 \begin{prop}
     Sei $(X, \tau)$ topologischer Raum. Äquivalent sind:
@@ -259,7 +262,7 @@ $X$ Menge, $\filterset(X)$ Menge aller Filter auf $X$.
 \end{proof}
 
 \begin{korollar}
-    $X$ Menge. Zu jedem $\underline{C}\in\filterset(X)$ existiert ein maximales Element $\psi\in\filterset(X)$ mit $\varphi\subset \psi$.
+    $X$ Menge. Zu jedem $\varphi\in\filterset(X)$ existiert ein maximales Element $\psi\in\filterset(X)$ mit $\varphi\subset \psi$.
 \end{korollar}
 
 \begin{defn}
@@ -269,7 +272,7 @@ $X$ Menge, $\filterset(X)$ Menge aller Filter auf $X$.
 \begin{lemma}
     $X$ Menge, $\varphi\in \filterset(X)$. Äquivalent sind:
 
-    \begin{itemize}
+    \begin{enumerate}[label=(\arabic*)]
         \item $\varphi$ Ultrafilter
         \item $A\subseteq X$, so gilt $A\in\varphi$ oder $X\setminus A\in\varphi$
         \item Für je endlich viele Teilmengen $A_1,\dots,A_n$ von $X$ folgt aus $\left(\bigcup_{i=1}^n A_i \right) \in\varphi$ stets, dass es ein $i$ mit $A_i\in\varphi$ gibt, wobei $1\leq i\leq n$.
@@ -284,9 +287,9 @@ $X$ Menge, $\filterset(X)$ Menge aller Filter auf $X$.
     (3) nach (1): Angenommen $\varphi$ ist nicht maximal, also dass ein $\psi\in\filterset_0(X)$ existiert, mit $\psi \neq \varphi$. Also existiert $A\in \psi\setminus \varphi$. Es gilt $A \cup (X\setminus A) \in \varphi$, also nach Annahme $A\in\varphi$ oder $(X\setminus A) \in \varphi$. $A\in\varphi$ kann nicht sein, da $A\in\psi\setminus\varphi$. Wäre $(X\setminus A) \in\varphi$, so auch $(X\setminus A)\in \psi$ im Widerspruch zu $A\in\psi$. Also $\varphi$ maximal.
 \end{proof}
 
-\begin{bsp}
+\begin{ex}
     Einpunktfilter sind Ultrafilter, ansonsten nicht konstruierbar.
-\end{bsp}
+\end{ex}
 
 \begin{prop}
     Jeder Filter $\varphi$ ist gleich dem Durchschnitt aller seiner Oberultrafilter.
