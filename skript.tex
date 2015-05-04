@@ -318,4 +318,38 @@ $X$ Menge, $\filterset(X)$ Menge aller Filter auf $X$.
     $\mathfrak{B} \cup \varphi$ ist auch Filtersubbasis, denn für $P\in\varphi$ und $E\in\mathfrak{E}$ gilt $P\cap (X\setminus E) \neq \emptyset$. Es existiert also Oberultrafilter $\xi \supset \varphi$ mit $\mathfrak{B}\subseteq \xi$, d.h. für $E\in\mathfrak{E}$ gilt $E\not\in \xi$, denn $(X\setminus E)\in \xi$, Widerspruch!
 \end{proof}
 
+Seien $X,Y$ Mengen, $f:X\to Y$, $\varphi$ Filter auf $X$, $\psi$ Filter auf $Y$, dann ist $$f(\varphi)\coloneqq \{f(P):P\in\varphi\}$$ Filterbasis in $Y$, denn $$f(P_1\cap P_2)\subseteq f(P_1) \cap f(P_2)$$ d.h. es gibt einen erzeugten Filter $[f(\varphi)]$, üblicherweise kurz geschrieben als $f(\varphi)$.
+
+\begin{lemma}
+    Seien $X,Y$ Mengen, $f:X\to Y$, $\varphi$ Ultrafilter auf $X$. Dann ist $f(\varphi)$ Ultrafilter auf $Y$.
+\end{lemma}
+
+\begin{proof}
+    Sei $B\subseteq Y$, $B\not\in f(\varphi)$. Dann ist $f^{-1}(B)\not\in \varphi$ (sonst $f(f^{-1}(B))\in f(\varphi)$). Somit folgt $(X\setminus f^{-1}(B))\in \varphi$, also $f(X\setminus f^{-1}(B))\in f(\varphi)$. Da $f(X\setminus f^{-1}(B)) \subseteq (Y\setminus B)$ folgt $(Y\setminus B) \in f(\varphi)$.
+\end{proof}
+
+\begin{prop}
+    \begin{enumerate}[label=(\arabic*)]
+        \item $\varphi$ Filter auf $X$ und $B\subseteq Y$, dann ist $B\in f(\varphi)$ gdw. $f^{-1}(B)\in\varphi$.
+        \item Seien $\varphi_1,\varphi_2$ Filterbasen auf $X$. Dann folgt aus $[\varphi_1]\supseteq \varphi_2$ stets $f([\varphi_1]) \supseteq [f(\varphi_2)]$.
+        \item Ist $(\chi_i)$ Familie von Filtern auf $X$, so gilt: $$f\left(\bigcap_{i\in I} \chi_i\right)=\bigcap_{i\in I} f(\chi_i)$$
+    \end{enumerate}
+\end{prop}
+
+\begin{prop}
+    Sei $\psi$ Filter auf $Y$. $$\{f^{-1}(P): P\in\psi\}$$ ist Filterbasis auf $X$ gdw. für $P\in\psi$ gilt: $P\cap f(X)\neq \emptyset$.
+\end{prop}
+
+\begin{lemma}
+    Seien $X,Y$ Mengen, $f:X\to Y$, $\varphi$ Filter auf $X$. Sei $\psi_0$ Oberultrafilter von $f(\varphi)$. Dann existiert ein Ultrafilter $\varphi_0$ auf $X$ mit $f(\varphi_0)=\psi_0$.
+\end{lemma}
+
+\begin{proof}
+    $f^{-1}(\psi_0)$ ist Filterbasis, also existiert Ultrafilter $\varphi_0\supseteq f^{-1}(\psi)$. Also ist $f(\varphi_0)$ Ultrafilter mit $f(\varphi_0)\supseteq f(f^{-1}(\psi_0)) \supseteq \psi_0$.
+\end{proof}
+
+\begin{defn}
+    Sei $(X_i)$ Familie nichtleerer Mengen, $\varphi_i$ jeweils Filter auf $X_i$, dann nennen wir den von der Subbasis $$\left\{ \prod_{i\in I} P_i: \quad P_i\in\varphi_i, P_i \neq X_i \text{ für höchstens endlich viele } i\in I\right\}$$ erzeugten Filter den Produktfilter $\prod_{i\in I} \varphi_i$ auf $\prod_{i\in I} X_i$.
+\end{defn}
+
 \end{document}
