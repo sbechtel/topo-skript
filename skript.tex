@@ -18,9 +18,6 @@
 \usepackage[ngerman]{babel}
 \usepackage[autostyle=true,german=quotes]{csquotes}
 
-% fonts
-\newfont{\suet}{suet14}
-
 % environments
 \newtheorem{thm}{Theorem}
 \newtheorem{prop}{Proposition}
@@ -40,6 +37,9 @@
 %\newcommand{\implies}{\Rightarrow}
 \newcommand{\filterset}{\mathfrak{F}}
 %\newcommand{\filterset}{\underline{\mathcal{F}}}
+\newcommand{\interior}{\text{int}}
+\newcommand{\adh}{\text{adh}}
+\newcommand{\AR}[1]{$A_#1$-Raum}
 
 \newcommand\Inv[1]{#1^{-1}}
 
@@ -276,7 +276,7 @@ $X$ Menge, $\filterset(X)$ Menge aller Filter auf $X$.
         \item $\varphi$ Ultrafilter
         \item $A\subseteq X$, so gilt $A\in\varphi$ oder $X\setminus A\in\varphi$
         \item Für je endlich viele Teilmengen $A_1,\dots,A_n$ von $X$ folgt aus $\left(\bigcup_{i=1}^n A_i \right) \in\varphi$ stets, dass es ein $i$ mit $A_i\in\varphi$ gibt, wobei $1\leq i\leq n$.
-    \end{itemize}
+    \end{enumerate}
 \end{lemma}
 
 \begin{proof}
@@ -357,5 +357,193 @@ Seien $X,Y$ Mengen, $f:X\to Y$, $\varphi$ Filter auf $X$, $\psi$ Filter auf $Y$,
 \begin{defn}
     Sei $(X_i)$ Familie nichtleerer Mengen, $\varphi_i$ jeweils Filter auf $X_i$, dann nennen wir den von der Subbasis $$\left\{ \prod_{i\in I} P_i: \quad P_i\in\varphi_i, P_i \neq X_i \text{ für höchstens endlich viele } i\in I\right\}$$ erzeugten Filter den Produktfilter $\prod_{i\in I} \varphi_i$ auf $\prod_{i\in I} X_i$.
 \end{defn}
+
+\section*{offener Kern und abgeschlossene Hülle}
+
+\begin{defn}
+    Eine Teilmenge $A\subseteq X$ eines topologischen Raumes $(X,\tau)$ heißt \underline{abgeschlossen}, falls $(X\setminus A)$ offen ist, also $(X\setminus A)\in\tau$
+\end{defn}
+
+\begin{prop}
+    Sei $(X,\tau)$ topologischer Raum, $A\subseteq X$. $A$ ist genau dann abgeschlossen, wenn für $x\in X$ und Umgebung $U$ von $x$ gilt: $U\cap A \neq \emptyset \implies x\in A$.
+\end{prop}
+
+\begin{defn}
+    Sei $(X,\tau)$ topologischer Raum, $\varphi$ Filter auf $X$. Dann heißt $x\in X$ ein \underline{Adhärenzpunkt} (Berührungspunkt) \underline{von $\varphi$}, falls es einen Oberfilter $\psi \supseteq \varphi$ gibt mit $\psi \to x$. $$\adh(\varphi) \coloneqq \{ x\in X: \text{es gibt } \psi \supseteq \varphi \text{, sodass } \psi\to x \}$$ Ist $A\subseteq X$, so heißt $x\in X$ Berührpunkt von $A$, falls $x$ ein Berührpunkt von $[A]$ ist. \newline Die Menge aller Berührpunkte von $A\subseteq X$ heißt der Abschluss von $A$, Bezeichnung: $\overline{A}$.
+\end{defn}
+
+\begin{prop}
+    Sei $(X,\tau)$ topologischer Raum. Es gilt für alle $x\in X$:
+
+    \begin{gather*}
+        x\in \overline{A} \quad \text{gdw.} \quad \text{für alle } U\in \dot x \cap \tau \text{ gilt: } U\cap A \neq \emptyset
+    \end{gather*}
+\end{prop}
+
+\begin{proof}
+    Sei $x\in \overline{A}$, dann gibt es Filter $\psi$ auf $X$ mit $A\in \psi$ und $\psi \to x$. Damit folgt direkt die Behauptung.
+
+    Nun gelte für $U\in \dot x \cap \tau$: $A\cap U \neq \emptyset$. Dann ist $$\mathfrak{B} \coloneqq \{A\} \cup \{\dot x \cap \tau \}$$ Filtersubbasis, also existiert Filter $\psi$ mit $\mathfrak{B} \subseteq \psi$ (also $A\in \psi$) und $\psi \to x$, also $x\in \overline{A}$.
+\end{proof}
+
+\begin{defn}
+    Sei $(X,\tau)$ topologischer Raum, $M\subseteq X$. Ein Punkt $m\in M$ heißt \underline{innerer Punkt von $M$}, falls es eine offene Umgebung $U$ von $x$ gibt mit $U\subseteq M$.
+
+    Die Menge aller inneren Punkte von $M$ heißt \underline{das Innere} (offener Kern) von $M$, Bezeichnung: $\interior(M)$.
+\end{defn}
+
+\begin{prop}
+    Sei $(X,\tau)$ topologischer Raum, $A\subseteq X$. Es gilt:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $X\setminus \interior(A) = \overline{X\setminus A}$
+        \item $X\setminus \overline{A} = \interior(X\setminus A)$
+    \end{enumerate}
+\end{prop}
+
+\begin{proof}
+    \begin{enumerate}[label=(\arabic*)]
+        \item $x\in \overline{X\setminus A}$ gdw. für offene Umgebung $U$ von $x$ gilt: $U\cap (X\setminus A) \neq \emptyset$ gdw. $U \not\subseteq A$ gdw. $x\not\in \interior(A)$ gdw. $x\in X\setminus \interior(A)$
+        \item Bei (1) $X\setminus A$ statt $A$ einsetzen liefert: $$X\setminus \interior(X\setminus A) = \overline{X\setminus (X\setminus A)} = \overline {A}$$ folglich $\interior(X\setminus A) = X\setminus \overline{A}$
+    \end{enumerate}
+\end{proof}
+
+\begin{prop}
+    Sei $(X,\tau)$ topologischer Raum. Es gilt:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $\interior(A) \subseteq A$
+        \item $\interior(A)$ ist die größte offene Teilmenge von $A$, d.h. $$\interior(A) = \bigcup_{G\in\tau, \; G\subseteq A} G$$
+        \item $\interior(A)\in \tau$ und $\interior(\interior(A))=\interior(A)$
+        \item $\interior(A)=A$ gdw. $A\in \tau$
+        \item Aus $A\subseteq B$ folgt $\interior(A)\subseteq \interior(B)$
+        \item $\bigcup_{i\in I} \interior(A_i) \subseteq \interior(\bigcup_{i\in I} A_i)$
+        \item $\bigcap_{i\in I} \interior(A_i) \supseteq \interior(\bigcap_{i\in I} A_i)$
+        \item für endliche $I$ gilt in (7) Gleichheit
+        \item $\interior(\emptyset)=\emptyset, \interior(X)=X$
+    \end{enumerate}
+\end{prop}
+
+\begin{prop}
+    Sei $(X,\tau)$ topologischer Raum. Es gilt:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $\overline{A} \supseteq A$
+        \item $\overline{A}$ ist die kleinste abgeschlossene Teilmenge von $X$, die $A$ umfasst, d.h. $$\overline{A} = \bigcap_{\substack{(X\setminus M) \in \tau, \\  M\supseteq A}} G$$
+        \item $\overline{A}$ ist abgeschlossen und $\overline{\overline{A}}=\overline{A}$
+        \item $\overline{A}=A$ gdw. $(X\setminus A) \in \tau$
+        \item Aus $A\subseteq B$ folgt $\overline{A}\subseteq \overline{B}$
+        \item $\bigcap_{i\in I} \overline{A_i} \supseteq \overline{\bigcap_{i\in I} A_i}$
+        \item $\bigcup_{i\in I} \overline{A_i} \subseteq \overline{\bigcup_{i\in I} A_i}$
+        \item für endliche $I$ gilt in (7) Gleichheit
+        \item $\overline{\emptyset}=\emptyset, \overline{X}=X$
+    \end{enumerate}
+\end{prop}
+
+\begin{lemma}
+    Sei $(X,\tau)$ topologischer Raum, $\varphi$ Filter auf $X$. $\overline{\varphi}$ sei der von $\{ \overline{P}: P\in \varphi \}$ erzeugte Filter. Dann gilt: $$\adh(\varphi) = \adh(\overline{\varphi})$$
+\end{lemma}
+
+\begin{proof}
+    Sei $x\in \adh(\varphi)$. Dann gibt es Oberfilter $\varphi_0$ von $\varphi$ mit $\varphi_0\to x$. Außerdem gilt $\overline{\varphi} \subseteq \varphi$, also ist $\varphi_0$ auch Oberfilter von $\overline{\varphi}$, somit $x\in \adh(\overline{\varphi})$.
+
+    Sei nun $x\in \adh(\overline{\varphi})$. Dann gibt es Oberfilter $\psi\supseteq \overline{\varphi}$ mit $\psi \to x$. $$\mathfrak{B} \coloneqq \varphi \cup (\dot x \cap \tau)$$ ist Filtersubbasis, denn für $P\in \varphi$ gilt: $x\in \overline{P}$ gdw. für $U\in \dot x \cap \tau$ gilt $P\cap U \neq \emptyset$.
+
+    Nun sei $\varphi_0$ der von $\mathfrak{B}$ erzeugte Filter, $\varphi_0$ ist Oberfilter von $\varphi$ und $\varphi_0 \to x$, also $x\in \adh(\varphi)$.
+\end{proof}
+
+\section*{Vergleich und Erzeugung von Topologien}
+
+\begin{defn}
+    $\tau_1$ heißt \underline{feiner} als $\tau_2$, falls $\tau_1 \supseteq \tau_2$.
+\end{defn}
+
+\begin{defn}
+    Sei $(X,\tau)$ topologischer Raum. $\mathfrak{B} \subseteq \tau$ heißt \underline{Basis} von $\tau$, falls für jede offene Menge $O\in \tau$ eine Teilfamilie $\mathfrak{T} \subseteq \mathfrak{B}$ existiert, so dass $$O = \bigcup_{A\in \mathfrak{T}} A$$ gilt.
+\end{defn}
+
+\begin{lemma}
+    Sei $(X,\tau)$ topologischer Raum, $\mathfrak{B}\subseteq \tau$. Dann sind äquivalent:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $\mathfrak{B}$ ist eine Basis von $\tau$
+        \item für $O\in \tau$ und $x\in O$ gibt es $M\in \mathfrak{B}$ mit $x\in M \subseteq O$
+    \end{enumerate}
+\end{lemma}
+
+\begin{korollar}
+    Sei $\mathfrak{B}$ Basis von $\tau$.
+
+    \begin{gather*}
+        M\in \tau \quad \text{gdw.} \quad \text{für } x\in M \text{ gibt es } U_x \in \mathfrak{B} \text{, so dass } x\in U_x \subseteq M
+    \end{gather*}
+\end{korollar}
+
+\begin{prop}
+    Sei $X$ Menge, $\emptyset \neq \mathfrak{B} \subseteq \powerset(X)$. Dann ist $\mathfrak{B}$ Basis einer Topologie auf $X$ gdw. gilt:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $\bigcup_{B\in \mathfrak{B}} B = X$
+        \item für $U,V\in \mathfrak{B}$ und $x\in U\cap V$ gibt es $W\in\mathfrak{B}$, so dass $x\in W\subseteq U\cap V$.
+    \end{enumerate}
+\end{prop}
+
+\begin{proof}
+    Setze: $$\tau_\mathfrak{B} \coloneqq \{ \bigcup_{A\in \mathfrak{A}} A: \mathfrak{A} \subseteq \mathfrak{B} \}$$ Zeige $\tau_\mathfrak{B}$ ist Topologie:
+
+    \begin{itemize}
+        \item $X\in \tau_\mathfrak{B}$ nach (1).
+        \item $\emptyset \subseteq \mathfrak{B}$, also $\emptyset \in \tau_\mathfrak{B}$
+        \item Sei $\mathfrak{H} \subseteq \tau_\mathfrak{B}$. $\bigcup_{O\in \mathfrak{H}} O \in \tau_\mathfrak{B}$, denn für $O\in\mathfrak{H}$ gibt es $\mathfrak{A}_O\subseteq \mathfrak{B}$ mit $O = \bigcup_{A\in \mathfrak{A}_O} A$. Setze also $\mathfrak{A} \coloneqq \bigcup_{O\in \mathfrak{H}} \mathfrak{A}_O$
+        \item Seien $U,V\in \tau_\mathfrak{B}$, nach (2) gibt es für $x\in U\cap V$ eine Menge $W_x\in \mathfrak{B}$ mit $x\in W_x \subseteq U \cap V$. Also gilt $$U\cap V = \bigcup_{x\in U\cap V} W_x \in \tau_\mathfrak{B}$$
+    \end{itemize}
+\end{proof}
+
+\begin{defn}
+    Sei $(X,\tau)$ topologischer Raum, $\mathfrak{S} \subseteq \tau$ heißt \underline{Subbasis} für $\tau$, falls $$\mathfrak{B}_\mathfrak{S} \coloneqq \left\{ \bigcap_{i=1}^n S_i: S_i\in \mathfrak{S}, n\in \mathbb{N} \right\}$$ eine Basis für $\tau$ ist.
+\end{defn}
+
+\begin{prop}
+    Sei $X$ Menge, $\mathfrak{S} \subseteq \powerset(X)$. Dann ist $\mathfrak{S}$ eine Subbasis einer Topologie $\tau_\mathfrak{S}$ auf $X$ gdw. $\bigcup_{S\in \mathbb{S}} S = X$ gilt.
+\end{prop}
+
+\begin{ex}
+    \begin{itemize}
+        \item Subbasis für die euklidische Topologie: $$\{ (-\infty, a), (b,\infty): a,b\in \mathbb{R} \}$$
+        \item \enquote{sorgenfrei Gerade} $(\mathbb R, \tau_\mathfrak{S})$: $$\mathfrak{S} \coloneqq \{ [a,b): a,b\in \mathbb R \}$$
+    \end{itemize}
+\end{ex}
+
+\section*{Abzählbarkeitseigenschaften}
+
+\begin{defn}
+    Sei $(X,\tau)$ topologischer Raum.
+
+    \begin{itemize}
+        \item $(X,\tau)$ heißt \underline{erstabzählbar} bzw. \underline{\AR{1}}, falls jeder Umgebungsfilter eine abzählbare Basis hat.
+        \item $(X,\tau)$ heißt \underline{zweitabzählbar} bzw. \underline{\AR{2}}, falls $\tau$ eine abzählbare Basis hat.
+    \end{itemize}
+\end{defn}
+
+\begin{prop}
+    Für $(X,\tau)$ topologischen Raum gilt:
+
+    \begin{itemize}
+        \item $(X,\tau)$ ist \AR{1} gdw. jeder Umgebungsfilter eine abzählbare Basis hat
+        \item $(X,\tau)$ ist \AR{2} gdw. $\tau$ abzählbare Subbasis hat
+        \item Jeder \AR{2} ist auch ein \AR{1}.
+    \end{itemize}
+\end{prop}
+
+\begin{defn}
+    \begin{itemize}
+        \item $(X,\tau)$ topologischer Raum, $D\subseteq X$. $D$ heißt \underline{dicht} in $X$, falls $\overline{D}=X$.
+        \item $(X,\tau)$ heißt \underline{separabel}, falls es eine abzählbare, dichte Teilmenge von $X$ gibt.
+    \end{itemize}
+\end{defn}
+
+\begin{lemma}
+    Sei $(X,\tau)$ topologischer Raum, $D\subseteq X$. $D$ ist dicht in $X$ gdw. für $O\in \tau$ mit $O\neq \emptyset$ gilt: $D\cap O \neq \emptyset$.
+\end{lemma}
 
 \end{document}
