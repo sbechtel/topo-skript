@@ -17,6 +17,13 @@
 \usepackage[utf8]{inputenc}  % für Unix-Systeme
 \usepackage[ngerman]{babel}
 \usepackage[autostyle=true,german=quotes]{csquotes}
+\usepackage{tikz-cd}
+\tikzset{ % das braucht man für die kommutativen Diagramme, wenn man babel german benutzt!!
+  every picture/.append style={
+    execute at begin picture={\shorthandoff{"}},
+    execute at end picture={\shorthandon{"}}
+  }
+}
 
 % environments
 \newtheorem{thm}{Theorem}
@@ -544,6 +551,149 @@ Seien $X,Y$ Mengen, $f:X\to Y$, $\varphi$ Filter auf $X$, $\psi$ Filter auf $Y$,
 
 \begin{lemma}
     Sei $(X,\tau)$ topologischer Raum, $D\subseteq X$. $D$ ist dicht in $X$ gdw. für $O\in \tau$ mit $O\neq \emptyset$ gilt: $D\cap O \neq \emptyset$.
+\end{lemma}
+
+\begin{prop}
+    Jeder \AR{2} ist separabel
+\end{prop}
+
+\begin{lemma}
+    Sei $(X,d)$ metrischer Raum und $\tau_d$ die von der Metrik $d$ erzeugte Topologie, dann ist $(X,\tau_d)$ \AR{2} gdw. er separabel ist.
+\end{lemma}
+
+\begin{proof}
+    \enquote{$\Leftarrow$} Sei $D$ die abzählbare, dichte Teilmenge von $X$. Wähle $$\left\{ U_{\frac 1 n}(d): d\in D, n\in \mathbb N \right\}$$ als Basis.
+\end{proof}
+
+\begin{defn}
+    Sei $X$ Menge. Dann heißt eine Familie $\mathfrak{O} \subseteq \powerset(X)$ eine \underline{Überdeckung von $X$}, falls $$\bigcup_{M\in\mathfrak{O}} M \supseteq X$$ Eine Teilfamilie $\mathfrak{V} \subseteq \mathfrak{O}$ heißt \underline{Teilüberdeckung in $\mathfrak{O}$ von $X$}, falls $$\bigcup_{M\in\mathfrak{V}} M \supseteq X$$ Eine Überdeckung eines topologischen Raums heißt \underline{offene Überdeckung}, falls alle Elemente von $\mathfrak{O}$ offen in $X$ sind.
+\end{defn}
+
+\begin{defn}
+    Ein topologischer Raum $(X,\tau)$ heißt \underline{Lindelöf-Raum}, falls jede offene Überdeckung von $X$ eine abzählbare Teilüberdeckung (von $X$) enthält.
+\end{defn}
+
+\begin{lemma}
+    Jeder \AR{2} ist Lindelöf-Raum.
+\end{lemma}
+
+\begin{proof}
+    Sei $\mathfrak{O}$ offene Überdeckung, $\mathfrak{B}$ abzählbare Basis der Topologie. Jedes $x\in X$ ist in $O_x\in\mathfrak{O}$ enthalten. Zu $x\in O_x$ existiert $B_x\in\mathfrak{B}$ mit $x\in B_x\subseteq O_x$. Also existiert $(B_{x_n})_{n\in\mathbb{N}}$ mit $\bigcup_{i\in\mathbb{N}} B_{x_i} \supseteq X$. Wähle $\left\{ O_{x_n}: n\in\mathbb{N} \right\}$ als offene Teilüberdeckung.
+\end{proof}
+
+\begin{defn}
+    Sei $(X,\tau)$ topologischer Raum. $A\subseteq X$ heißt \underline{nirgends dicht}, falls $A$ bzgl. keiner offenen, nichtleeren Teilmenge von $X$ dicht ist.
+\end{defn}
+
+\begin{lemma}
+    Eine Teilmenge $A$ eines topologischen Raums $(X,\tau)$ ist nirgends dicht in $X$ gdw. $\interior(\overline{A})=\emptyset$.
+\end{lemma}
+
+\section*{Stetigkeit}
+
+\begin{defn}
+    Seien $(X,\tau), (Y,\sigma)$ topologische Räume, $f:X\to Y$. Dann heißt f \underline{stetig}, falls für alle $V\in\sigma$ gilt: $\Inv f(V)\in\tau$. Die Menge aller stetigen Abbildungen von $(X,\tau)$ nach $(Y,\sigma)$ bezeichnen wir mit $C((X,\tau),(Y,\sigma))$ bzw. kurz (sofern die Topologien klar sind) C(X,Y).
+\end{defn}
+
+\begin{prop}
+    Seien $(X,\tau),(Y,\sigma)$ topologische Räume, $\mathfrak{S}$ Subbasis von $\sigma$, $f:X\to Y$. Dann ist $f$ genau dann stetig, wenn für $V\in\mathfrak{S}$ gilt: $\Inv f(V)\in\tau$.
+\end{prop}
+
+\begin{proof}
+    \enquote{$\Leftarrow$} Elemente von $\sigma$ sind Vereinigungen von Schnitten von Elementen in $\mathfrak{S}$ und $\Inv f$ ist verträglich mit Vereinigungen und Schnitten.
+\end{proof}
+
+\begin{lemma}
+    Seien $(X,\tau),(Y,\sigma)$ topologische Räume, $f:X\to Y$. Äquivalent sind:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $f$ stetig
+        \item für jede abgeschlossene Teilmenge $B$ von $Y$ ist $\Inv f(B)$ abgeschlossen in $X$
+        \item für jede Teilmenge $M\subseteq Y$ gilt: $\Inv f(\interior(M)) \subseteq \interior(\Inv f(M))$
+        \item für jede Teilmenge $A\subseteq X$ gilt: $f(\overline{A}) \subseteq \overline{f(A)}$
+        \item für jeden Filter $\varphi$ auf $X$ und $x\in X$ folgt aus $\varphi\to x$ stets $f(\varphi)\to f(x)$
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    \enquote{(1) $\Leftrightarrow$ (2)} klar
+
+    \enquote{(1) $\Leftrightarrow$ (3)} Sei $f$ stetig. $\interior(M)$ ist offen, also $\Inv f(\interior(M))$ offen, somit $\Inv f(\interior(M)) = \interior(\Inv f(\interior(M)))$. Da $\interior \circ \Inv f$ monoton und $\interior(M) \subseteq M$, folgt $\interior(\Inv f(\interior(M))) \subseteq \interior(\Inv f(M))$ und somit die Behauptung.
+
+    Gelte nun die Bedingung auf der rechten Seite und sei $V\subseteq Y$ offen. Dann ist $V=\interior(V)$. Es gilt $$\Inv f(\interior(V)) \subseteq \interior(\Inv f(V)) \subseteq \Inv f(V) = \Inv f(\interior(V))$$ also $\interior(\Inv f(V)) = \Inv f(V)$. Somit $\Inv f(V)$ offen, also $f$ stetig.
+
+    \enquote{(2) $\Leftrightarrow$ (4)} Sei $A \subseteq X$ und es gelte (2). Dann ist $\Inv f\left(\overline{f(A)}\right)$ nach (2) abgeschlossen. Aus $A\subseteq \Inv f\left(\overline{f(A)}\right)$ folgt mit Monotonie des Abschluss $\overline{A} \subseteq \Inv f\left(\overline{f(A)}\right)$, somit $f\left(\overline{A}\right) \subseteq \overline{f(A)}$.
+
+    Nun sei $B\subseteq Y$ abgeschlossen und es gelte (4), somit $$f\left(\overline{\Inv f(B)}\right) \subseteq \overline{f(\Inv f(B)} \subseteq \overline{B} = B$$ also auch $\overline{\Inv f(B)} \subseteq \Inv f\left(f\left(\overline{\Inv f(B)}\right)\right) \subseteq \Inv f(B)$.
+
+    \enquote{(1) $\Leftrightarrow$ (5)} Sei $f$ stetig, $\varphi$ Filter auf $X$ mit $\varphi \to x\in X$. Sei $V$ offene Umgebung von $f(x)$ in $Y$. Dann ist $x\in \Inv f(V)\in \tau$, also $\Inv f(V)\in \varphi$. Also ist $V\in f(\varphi)$, denn $f(\Inv f(V)) \subseteq V$ ist in der Filterbasis von $f(\varphi)$. Dies liefert $f(\varphi) \to f(x)$.
+
+    Nun gelte (5) und $W\subseteq Y$ sei offen. Sei $w\in \Inv f(W)$ und $\varphi$ Filter auf $X$ mit $\varphi \to w$. Nach (5) gilt: $f(\varphi) \to f(w) \in W$, somit $W\in f(\varphi)$. Das heißt aber, dass es $W'\in \varphi$ gibt, so dass $W\supseteq f(W')$, also $\Inv f(W) \supseteq \Inv f(f(W')) \supseteq W'$, also $\Inv f(W)\in \varphi$, also $f$ stetig.
+\end{proof}
+
+\begin{defn}
+    Seien $(X,\tau),(Y,\sigma)$ topologische Räume, $x_0\in X$. $f:X\to Y$ heißt \underline{stetig in $x_0$}, falls $f(\dot x_0\cap \tau)\to f(x_0)$ gilt.
+\end{defn}
+
+\begin{korollar}
+    $f$ ist genau dannn stetig, wenn es stetig in jedem Punkt ist.
+\end{korollar}
+
+\begin{lemma}
+    Seien $(X,\tau),(Y,\sigma),(Z,\zeta)$ topologische Räume, $f:X\to Y, g:Y\to Z$. Ist $f$ stetig in $x_0$ und $g$ stetig in $f(x_0)$, so ist auch $g\circ f$ stetig in $x_0$.
+\end{lemma}
+
+\begin{proof}
+    Wegen Stetigkeit von $f$ in $x_0$ gilt $f(\dot x_0 \cap \tau) \supseteq [f(x_0)] \cap \sigma$ und wegen Stetigkeit von $g$ in $f(x_0)$ gilt $g([f(x_0)] \cap \sigma) \supseteq [g(f(x_0))] \cap \zeta$. Zusammen also $$(g\circ f)(\dot x_0 \cap \tau) \supseteq [(g\circ f)(x_0)] \cap \zeta$$ somit $g\circ f$ stetig in $x_0$.
+\end{proof}
+
+\begin{korollar}
+    Sind $f:X\to Y$ und $g:Y\to Z$ stetig, so ist auch $g\circ f:X\to Z$ stetig.
+\end{korollar}
+
+\begin{defn}
+    Seien $(X,\tau),(Y,\sigma)$ topologische Räume, $f:X\to Y$. Dann heißt $f$ \underline{Homöomorphismus}, falls $f$ stetig und bijektiv ist, sowie $\Inv f$ ebenfalls stetig (also $f$ stetig und invertierbar).
+
+    Falls es einen Homöomorphismus zwischen $(X,\tau)$ und $(Y,\sigma)$ existiert, heißen diese Räume \underline{homöomorph}.
+\end{defn}
+
+\begin{defn}
+    Seien $(X,\tau),(Y,\sigma)$ topologische Räume, $f:X\to Y$.
+
+    \begin{itemize}
+        \item $f$ heißt \underline{offen}, falls das Bild jeder offenen Menge offen ist.
+        \item $f$ heißt \underline{abgeschlossen}, falls das Bild jeder abgeschlossenen Menge abgeschlossen ist.
+    \end{itemize}
+\end{defn}
+
+\section*{Topologische Konstruktionen}
+
+\begin{defn}
+    Sei eine Familie $((Y_i,\sigma_i))_{i\in I}$ topologischer Räume und Abbildungen $(f_i: X\to Y_i)_{i\in I}$ gegeben. Dann nennen wir die gröbste Topologie auf $X$, bzgl. derer alle $f_i$ stetig sind, die \underline{initiale} Topologie bzgl. der gegebenen Daten.
+
+    Sei $Y$ eine Menge und seien $((X_i,\tau_i))_{i\in I}$ topologische Räume, $(g_i:X_i\to Y)_{i\in I}$ Abbildungen. Dann nennen wir die feinste Topologie auf $Y$, bzgl. derer alle $g_i$ stetig sind, die \underline{finale} Topologie bzgl. der gegebenen Daten.
+\end{defn}
+
+\begin{prop}
+    In der Situation obiger Definition (Teil (1)) ist die initiale Topologie bestimmt durch die Subbasis $$\mathfrak{S}\coloneqq \{ \Inv f_i(O_i): i\in I, O_i\in \sigma_i \}$$
+\end{prop}
+
+\begin{prop}
+    In der Situation obiger Definition (Teil (2)) ist die finale Topologie gegeben durch $$\sigma \coloneqq \{ O\subseteq Y: \text{ für alle } i\in I \text{ gilt: } \Inv g_i(O)\in \tau_i \}$$
+\end{prop}
+
+\begin{lemma}
+    Seien $((Y_i,\sigma_i), f_i)_{i\in I}$ gegeben, $X$ Menge, $\tau$ Topologie auf $X$, $f_i:X\to Y_i$. Dann sind äquivalent:
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item Die Topologie $\tau$ ist initial bzgl. der gegebenen Daten
+        \item Für jeden topologischen Raum $(Z,\zeta)$ gilt: $g$ ist genau dann stetig, wenn alle $f_i\circ g$ stetig sind.
+
+            \[ \begin{tikzcd}
+                    (X,\tau) \arrow[rd, "g\circ f_i"] \arrow[r,"f_i"] & (Y_i,\sigma_i) \arrow[d, "g"] \\
+                                             & (Z,\zeta)
+            \end{tikzcd} \]
+    \end{enumerate}
 \end{lemma}
 
 \end{document}
